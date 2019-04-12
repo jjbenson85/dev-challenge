@@ -4,6 +4,8 @@
   "description": "JDLT developer technical challenge",
   "main": "index.html",
   "scripts": {
+    "start": "node index",
+    "serve": "webpack-dev-server --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +19,24 @@
   },
   "homepage": "https://github.com/JDLT-Ltd/dev-challenge#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1"
+    "dotenv-webpack": "^1.7.0",
+    "express": "^4.16.4",
+    "jquery": "^3.2.1",
+    "mongoose": "^5.5.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.5.1",
+    "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   }
 }

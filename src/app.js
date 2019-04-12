@@ -1,16 +1,15 @@
 console.log('Hello')
-
-
-//Globals
-let selectedSupplier
-let selectedProductId
+// import jQuery from 'jquery'
+// import 'bootstrap'
+// import './scss/app.scss'
+// import './css/dashboard.css'
 
 //Get Dom Elements
 const $selSupplier = $('#selSupplier')
 const $selProduct = $('#selProduct')
 const $tbodyProduct = $('#tbodyProduct')
 
-
+//Data
 const productArr = [
   {
     name: 'Small wongle',
@@ -56,18 +55,14 @@ const productArr = [
   }
 ]
 
-
-//Get supplier
-$selSupplier.on('change', handleSuplierChange)
-$selProduct.on('change', handleProductChange)
-
-
 //Update Product List
 function handleSuplierChange(e){
 
-  console.log(e.target.value)
-  selectedSupplier = e.target.value
-  const products = productArr.filter(product => product.supplier === e.target.value)
+  let supplier
+  if(e)  supplier = e.target.value
+  else  supplier = 'New Co Ltd.'
+
+  const products = productArr.filter(product => product.supplier === supplier)
 
   //Clear Select Element
   $selProduct.empty()
@@ -81,16 +76,17 @@ function handleSuplierChange(e){
 
 //Display Product details
 function handleProductChange(e){
-  console.log(e.target.value)
-  selectedProductId = e.target.value
+  let productId
+  if(e) productId = parseInt(e.target.value)
+  else productId = 0
 
-  const product = productArr.find( product => product.id === parseInt(selectedProductId) )
-  console.log(product, productArr, parseInt(selectedProductId) )
+  //Find product by id
+  const product = productArr.find( product => product.id === productId )
 
   //Clear Table
   $tbodyProduct.empty()
 
-  //Create cells for Select Element
+  //Create cells for Select Element and insert data
   const output = `<tr>
       <th>${product.id}</th>
       <th>${product.supplier}</th>
@@ -101,3 +97,12 @@ function handleProductChange(e){
   //Append table row to table
   $tbodyProduct.append(output)
 }
+
+
+//Add event Listeners
+$selSupplier.on('change', handleSuplierChange)
+$selProduct.on('change', handleProductChange)
+
+//On load
+handleSuplierChange()
+handleProductChange()

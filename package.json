@@ -5,6 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "node index",
+    "seed": "node db/seeds",
     "serve": "webpack-dev-server --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/JDLT-Ltd/dev-challenge#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "bluebird": "^3.5.4",
     "bootstrap": "^3.3.7",
     "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",

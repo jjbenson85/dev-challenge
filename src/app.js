@@ -1,108 +1,107 @@
-console.log('Hello')
-// import jQuery from 'jquery'
-// import 'bootstrap'
-// import './scss/app.scss'
-// import './css/dashboard.css'
 
-//Get Dom Elements
-const $selSupplier = $('#selSupplier')
-const $selProduct = $('#selProduct')
-const $tbodyProduct = $('#tbodyProduct')
+import axios from 'axios'
 
-//Data
-const productArr = [
-  {
-    name: 'Small wongle',
-    price: 5,
-    supplier: 'New Co Ltd.',
-    id: 0
-  },
-  {
-    name: 'Large wongle',
-    price: 8,
-    supplier: 'New Co Ltd.',
-    id: 1
-  },
-  {
-    name: 'Super wongle',
-    price: 12,
-    supplier: 'New Co Ltd.',
-    id: 2
-  },
-  {
-    name: 'Mini wongle',
-    price: 4,
-    supplier: 'Old Co Ltd.',
-    id: 3
-  },
-  {
-    name: 'Small wongle',
-    price: 6,
-    supplier: 'Old Co Ltd.',
-    id: 4
-  },
-  {
-    name: 'Large wongle',
-    price: 9,
-    supplier: 'Old Co Ltd.',
-    id: 5
-  },
-  {
-    name: 'Super wongle',
-    price: 13,
-    supplier: 'Old Co Ltd.',
-    id: 6
-  }
-]
 
-//Update Product List
-function handleSuplierChange(e){
 
-  let supplier
-  if(e)  supplier = e.target.value
-  else  supplier = 'New Co Ltd.'
+//Lets
+let productArr
+let $selSupplier
+let $selProduct
+let $tbodyProduct
 
-  const products = productArr.filter(product => product.supplier === supplier)
+//build Supplier options
+function buildSupplierOptions(suppliers){
+  const output = suppliers.map(supplier => $(`<option>${supplier.name}</option>`))
+  //Add default message
+  output.unshift($('<option selected disabled hidden>Select A Supplier</option>'))
+  //Add Options to Select element
+  $selSupplier.append(output)
+}
 
-  //Clear Select Element
-  $selProduct.empty()
 
+function buildProductOptions(products){
   //Create options for Select Element
-  const output = products.map(product => $(`<option value=${product.id}>${product.name}</option>`))
+  const output = products.map(product => $(`<option value=${product._id}>${product.name}</option>`))
+
+  //Add default message
+  output.unshift($('<option selected disabled hidden>Select A Product</option>'))
 
   //Add Options to Select element
   $selProduct.append(output)
 }
 
+
+//Update Product List
+function handleSuplierChange(e){
+  let supplier
+  if(e)  supplier = e.target.value
+  else  supplier = 'New Co Ltd.'
+
+  //Request Data from server
+  axios.get('/api/products')
+    .then(res => {
+      productArr = res.data
+      const products = productArr.filter(product => product.supplier === supplier)
+
+      //Clear Select Element
+      $selProduct.empty()
+
+      //Clear Table
+      $tbodyProduct.empty()
+
+      //Build Product options
+      buildProductOptions(products)
+
+    })
+    .catch(err=> console.error(err.message))
+
+}
+
 //Display Product details
 function handleProductChange(e){
-  let productId
-  if(e) productId = parseInt(e.target.value)
-  else productId = 0
+
+  // let productId
+  const productId = e.target.value
 
   //Find product by id
-  const product = productArr.find( product => product.id === productId )
+  const product = productArr.find( product => product._id === productId )
 
   //Clear Table
   $tbodyProduct.empty()
 
   //Create cells for Select Element and insert data
   const output = `<tr>
-      <th>${product.id}</th>
-      <th>${product.supplier}</th>
-      <th>${product.name}</th>
-      <th>${product.price}</th>
+      <td>${product._id}</td>
+      <td>${product.supplier}</td>
+      <td>${product.name}</td>
+      <td>${product.price}</td>
   </tr>`
 
   //Append table row to table
   $tbodyProduct.append(output)
 }
 
-
-//Add event Listeners
-$selSupplier.on('change', handleSuplierChange)
-$selProduct.on('change', handleProductChange)
-
 //On load
-handleSuplierChange()
-handleProductChange()
+$(()=>{
+  console.log('Hello')
+
+  //Get Dom Elements
+  $selSupplier = $('#selSupplier')
+  $selProduct = $('#selProduct')
+  $tbodyProduct = $('#tbodyProduct')
+
+  //Add event Listeners
+  $selSupplier.on('change', handleSuplierChange)
+  $selProduct.on('change', handleProductChange)
+
+  //Get data
+  axios.get('/api/suppliers')
+    //Build Supplier Options
+    .then(res => buildSupplierOptions(res.data))
+    //Build Product Options
+    .then( ()=>  handleSuplierChange())
+    .catch(err=> console.error(err.message))
+
+
+
+})

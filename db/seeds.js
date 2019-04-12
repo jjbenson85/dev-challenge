@@ -8,6 +8,12 @@ const Promise = require('bluebird')
 mongoose.Promise = Promise
 
 const Product = require('../models/product')
+const Supplier = require('../models/supplier')
+
+const supplierArr = [
+  {name: 'New Co Ltd.'},
+  {name: 'Old Co Ltd.'}
+]
 
 const productArr = [
   {
@@ -59,6 +65,14 @@ const productArr = [
 mongoose.connect(process.env.MONGODB_URI, (err, db) => {
   //Delete all database data
   db.dropDatabase()
+    .then(()=>{
+      return Promise.all(supplierArr.map((supplier)=>{
+        const {name} = supplier
+        return Supplier.create({
+          name
+        })
+      }))
+    })
     .then(()=>{
       return Promise.all(productArr.map((product)=>{
         const {name, supplier, price} = product

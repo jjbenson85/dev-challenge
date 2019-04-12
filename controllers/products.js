@@ -8,6 +8,14 @@ function indexRoute(req, res, next) {
     .catch(next)
 }
 
+function supplierRoute(req, res, next) {
+  Products
+    .find()
+    .then(products => res.json(products))
+    .catch(next)
+}
+
 module.exports = {
-  index: indexRoute
+  index: indexRoute,
+  suppliers: supplierRoute
 }

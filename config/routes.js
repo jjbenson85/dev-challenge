@@ -5,6 +5,7 @@ const router = require('express').Router()
 // const usersController = require('../controllers/users')
 // const projectsController = require('../controllers/projects')
 const productsController = require('../controllers/products')
+const suppliersController = require('../controllers/suppliers')
 
 //*** AUTH ROUTES **//
 // router.post('/register', authController.register)
@@ -14,6 +15,9 @@ const productsController = require('../controllers/products')
 //*** USER ROUTES **//
 router.route('/products')
   .get(productsController.index)
+
+router.route('/suppliers')
+  .get(suppliersController.index)
 //
 // router.route('/users/search/:search')
 //   .get(usersController.search)

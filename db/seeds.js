@@ -60,25 +60,32 @@ const productArr = [
   }
 ]
 
+// let newCo
+// let oldCo
 
 //Connect to database
 mongoose.connect(process.env.MONGODB_URI, (err, db) => {
   //Delete all database data
   db.dropDatabase()
     .then(()=>{
-      return Promise.all(supplierArr.map((supplier)=>{
-        const {name} = supplier
-        return Supplier.create({
-          name
+      return Promise.props({
+        newCo: Supplier.create({
+          name: 'New Co Ltd.'
+        }),
+        oldCo: Supplier.create({
+          name: 'Old Co Ltd.'
         })
-      }))
+      })
     })
-    .then(()=>{
+    .then((suppliers)=>{
       return Promise.all(productArr.map((product)=>{
         const {name, supplier, price} = product
+        let sup
+        if(supplier==='New Co Ltd.') sup = suppliers.newCo
+        else sup = suppliers.oldCo
         return Product.create({
           name,
-          supplier,
+          supplier: sup,
           price
         })
       }))

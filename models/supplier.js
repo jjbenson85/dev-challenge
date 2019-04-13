@@ -1,15 +1,21 @@
 const mongoose = require('mongoose')
 
-const poductSchema = new mongoose.Schema({
+const supplierSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: false }
 })
 
 //Remove __v tag when returning JSON
-poductSchema.set('toJSON', {
+supplierSchema.set('toJSON', {
   transform(doc, json) {
     delete json.__v
     return json
   }
 })
 
-module.exports = mongoose.model('Poduct', poductSchema)
+// supplierSchema.virtual('product', {
+//   ref: 'Product',
+//   localField: '_id',
+//   foreignField: 'supplier'
+// })
+
+module.exports = mongoose.model('Supplier', supplierSchema)

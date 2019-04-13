@@ -11,6 +11,7 @@ let $tbodyProduct
 
 //build Supplier options
 function buildSupplierOptions(suppliers){
+  console.log(suppliers)
   const output = suppliers.map(supplier => $(`<option>${supplier.name}</option>`))
   //Add default message
   output.unshift($('<option selected disabled hidden>Select A Supplier</option>'))
@@ -20,6 +21,7 @@ function buildSupplierOptions(suppliers){
 
 
 function buildProductOptions(products){
+    console.log(products)
   //Create options for Select Element
   const output = products.map(product => $(`<option value=${product._id}>${product.name}</option>`))
 
@@ -32,7 +34,7 @@ function buildProductOptions(products){
 
 
 //Update Product List
-function handleSuplierChange(e){
+function handleSupplierChange(e){
   let supplier
   if(e)  supplier = e.target.value
   else  supplier = 'New Co Ltd.'
@@ -41,7 +43,7 @@ function handleSuplierChange(e){
   axios.get('/api/products')
     .then(res => {
       productArr = res.data
-      const products = productArr.filter(product => product.supplier === supplier)
+      const products = productArr.filter(product => product.supplier.name === supplier)
 
       //Clear Select Element
       $selProduct.empty()
@@ -72,7 +74,7 @@ function handleProductChange(e){
   //Create cells for Select Element and insert data
   const output = `<tr>
       <td>${product._id}</td>
-      <td>${product.supplier}</td>
+      <td>${product.supplier.name}</td>
       <td>${product.name}</td>
       <td>${product.price}</td>
   </tr>`
@@ -80,6 +82,8 @@ function handleProductChange(e){
   //Append table row to table
   $tbodyProduct.append(output)
 }
+
+
 
 //On load
 $(()=>{
@@ -91,7 +95,7 @@ $(()=>{
   $tbodyProduct = $('#tbodyProduct')
 
   //Add event Listeners
-  $selSupplier.on('change', handleSuplierChange)
+  $selSupplier.on('change', handleSupplierChange)
   $selProduct.on('change', handleProductChange)
 
   //Get data
@@ -99,7 +103,7 @@ $(()=>{
     //Build Supplier Options
     .then(res => buildSupplierOptions(res.data))
     //Build Product Options
-    .then( ()=>  handleSuplierChange())
+    .then( ()=>  handleSupplierChange())
     .catch(err=> console.error(err.message))
 
 

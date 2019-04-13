@@ -4,6 +4,8 @@ const Products = require('../models/product')
 function indexRoute(req, res, next) {
   Products
     .find()
+    .populate('supplier')
+    // .populate([{path: 'supplier', select: 'name'}])
     .then(products => res.json(products))
     .catch(next)
 }

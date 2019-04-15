@@ -16,8 +16,14 @@ const suppliersController = require('../controllers/suppliers')
 router.route('/products')
   .get(productsController.index)
 
+router.route('/products/:id')
+  .get(productsController.show)
+
 router.route('/suppliers')
   .get(suppliersController.index)
+
+router.route('/suppliers/:id')
+  .get(suppliersController.show)
 //
 // router.route('/users/search/:search')
 //   .get(usersController.search)

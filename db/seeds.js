@@ -20,43 +20,43 @@ const productArr = [
     name: 'Small wongle',
     price: 5,
     supplier: 'New Co Ltd.',
-    id: 0
+    reference: 0,
   },
   {
     name: 'Large wongle',
     price: 8,
     supplier: 'New Co Ltd.',
-    id: 1
+    reference: 1
   },
   {
     name: 'Super wongle',
     price: 12,
     supplier: 'New Co Ltd.',
-    id: 2
+    reference: 2
   },
   {
     name: 'Mini wongle',
     price: 4,
     supplier: 'Old Co Ltd.',
-    id: 3
+    reference: 3
   },
   {
     name: 'Small wongle',
     price: 6,
     supplier: 'Old Co Ltd.',
-    id: 4
+    reference: 4
   },
   {
     name: 'Large wongle',
     price: 9,
     supplier: 'Old Co Ltd.',
-    id: 5
+    reference: 5
   },
   {
     name: 'Super wongle',
     price: 13,
     supplier: 'Old Co Ltd.',
-    id: 6
+    reference: 6
   }
 ]
 
@@ -79,14 +79,22 @@ mongoose.connect(process.env.MONGODB_URI, (err, db) => {
     })
     .then((suppliers)=>{
       return Promise.all(productArr.map((product)=>{
-        const {name, supplier, price} = product
+        const {name, supplier, price, reference} = product
         let sup
-        if(supplier==='New Co Ltd.') sup = suppliers.newCo
-        else sup = suppliers.oldCo
+        switch(supplier){
+          case 'New Co Ltd.':
+            sup = suppliers.newCo
+            break
+
+          case 'Old Co Ltd.':
+            sup = suppliers.oldCo
+            break
+        }
         return Product.create({
           name,
           supplier: sup,
-          price
+          price,
+          reference
         })
       }))
     })

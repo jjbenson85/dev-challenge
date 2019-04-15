@@ -1,10 +1,9 @@
 
 import axios from 'axios'
 
-
-
 //Lets
 let productArr
+let supplierArr
 let $selSupplier
 let $selProduct
 let $tbodyProduct
@@ -12,16 +11,18 @@ let $tbodyProduct
 //build Supplier options
 function buildSupplierOptions(suppliers){
   console.log(suppliers)
-  const output = suppliers.map(supplier => $(`<option>${supplier.name}</option>`))
+  const output = suppliers.map(supplier => $(`<option value=${supplier._id}>${supplier.name}</option>`))
+
   //Add default message
   output.unshift($('<option selected disabled hidden>Select A Supplier</option>'))
+
   //Add Options to Select element
   $selSupplier.append(output)
+
 }
 
 
 function buildProductOptions(products){
-    console.log(products)
   //Create options for Select Element
   const output = products.map(product => $(`<option value=${product._id}>${product.name}</option>`))
 
@@ -35,22 +36,23 @@ function buildProductOptions(products){
 
 //Update Product List
 function handleSupplierChange(e){
-  let supplier
-  if(e)  supplier = e.target.value
-  else  supplier = 'New Co Ltd.'
+  let supplierId
+  if(e)  supplierId = e.target.value
+  else  supplierId = supplierArr[0]._id
 
   //Request Data from server
-  axios.get('/api/products')
+  axios.get(`/api/suppliers/${supplierId}`)
     .then(res => {
-      productArr = res.data
-      const products = productArr.filter(product => product.supplier.name === supplier)
+      productArr = res.data.products
+
+      // const products = productArr.filter(product => product.supplier.name === supplier)
+      const products = res.data.products
 
       //Clear Select Element
       $selProduct.empty()
 
       //Clear Table
       $tbodyProduct.empty()
-
       //Build Product options
       buildProductOptions(products)
 
@@ -65,22 +67,31 @@ function handleProductChange(e){
   // let productId
   const productId = e.target.value
 
-  //Find product by id
-  const product = productArr.find( product => product._id === productId )
+  axios.get(`/api/products/${productId}`)
+    .then(res => {
 
-  //Clear Table
-  $tbodyProduct.empty()
+      const product = res.data
 
-  //Create cells for Select Element and insert data
-  const output = `<tr>
-      <td>${product._id}</td>
+      //Clear Table
+      $tbodyProduct.empty()
+
+      //Create cells for Select Element and insert data
+      const output = `<tr>
+      <td>${product.reference}</td>
       <td>${product.supplier.name}</td>
       <td>${product.name}</td>
       <td>${product.price}</td>
-  </tr>`
+      </tr>`
 
-  //Append table row to table
-  $tbodyProduct.append(output)
+      //Append table row to table
+      $tbodyProduct.append(output)
+
+    })
+    .catch(err=> console.error(err.message))
+
+  // //Find product by id
+  // const product = productArr.find( product => product._id === productId )
+  // console.log(product)
 }
 
 
@@ -101,7 +112,10 @@ $(()=>{
   //Get data
   axios.get('/api/suppliers')
     //Build Supplier Options
-    .then(res => buildSupplierOptions(res.data))
+    .then(res => {
+      supplierArr = res.data
+      buildSupplierOptions(supplierArr)
+    })
     //Build Product Options
     .then( ()=>  handleSupplierChange())
     .catch(err=> console.error(err.message))

@@ -3,10 +3,11 @@ import axios from 'axios'
 //On load
 $(()=>{
   console.log('Application loaded')
+
   //Get Dom Elements
   const $selSupplier = $('#selSupplier')
   const $selProduct = $('#selProduct')
-  // const $tbodyProduct = $('#tbodyProduct')
+  // const $tbodyProduct = $('#tbodyProduct') //initially just the table row was updated
   const $table = $('#table')
 
   //Add event Listeners
@@ -32,11 +33,14 @@ $(()=>{
 
 })
 
+/****** Global lets eliminated ******/
 //Lets
 // let $selSupplier
 // let $selProduct
 // let $tbodyProduct
 //
+
+/******  These two functions were refactored into buildSelectOptions()   ******/
 // //build Supplier options
 // function buildSupplierOptions(suppliers){
 //
@@ -66,6 +70,7 @@ $(()=>{
 
 function buildSelectOptions(select, array, type){
   console.log(`Building ${type} <select> options`)
+
   //Clear Select Element
   select.empty()
 
@@ -81,17 +86,17 @@ function buildSelectOptions(select, array, type){
 
 
 function buildTableRow(product, table){
-  console.log('Building Table')
+  console.log('Building <table>')
 
   //Clear Table
   table.empty()
-
 
   //Create cells for Select Element and insert data
   delete product._id
   const props = Object.keys(product)
   const vals = Object.values(product)
 
+  /****** Table row cells now created from product keys ******/
   //const output =
   // `<tr>
   //   <td>${product.reference}</td>
@@ -101,6 +106,7 @@ function buildTableRow(product, table){
   // </tr>`
 
   /* eslint-disable indent */
+
   const output =
   `<thead>
     <tr>
@@ -108,9 +114,10 @@ function buildTableRow(product, table){
         if(prop==='reference') return '<th>#</th>'
 
         //Split at capital letter and title case words
+        //from https://stackoverflow.com/questions/7888238/javascript-split-string-on-uppercase-characters
         const output = prop.split(/(?=[A-Z])/)
-        .map((el) => el.charAt(0)
-        .toUpperCase()+el.substr(1) )
+        .map((word) => word.charAt(0)
+        .toUpperCase()+word.substr(1) )
         .join(' ')
 
         return `<th>${output}</th>`
@@ -149,7 +156,7 @@ function handleProductChange(e, table){
     })
     .catch(err=> console.error(err.message))
 
-  // FRONT END DATA SEARCH
+  /****** Finding data to show is now handle by backend ******/
   // //Find product by id
   // const product = productArr.find( product => product._id === productId )
 }
@@ -172,7 +179,7 @@ function handleSupplierChange(e, select, table){
       //Build Product options
       buildSelectOptions(select, products, 'Product')
 
-      //FRONT END DATA FILTER
+      /****** Filtering data to show is now handle by backend ******/
       // productArr = res.data.products
       // const products = productArr.filter(product => product.supplier.name === supplier)
     })

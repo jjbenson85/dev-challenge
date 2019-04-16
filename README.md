@@ -89,7 +89,6 @@ function showRoute(req, res, next) {
 This function in ```products.js``` uses the *select* property of the *populate* method to only return the name of the products, rather than all of their data, reducing the amount of data that needs to be transferred.
 
 #### Mocha / Chai / supertest
-
 The command ``` yarn test ``` will run the test suite.
 
 I have created a few basic tests to show how they might look on a larger project.

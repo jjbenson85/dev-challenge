@@ -4,7 +4,11 @@ const productSchema = new mongoose.Schema({
   name: { type: String, required: 'Product name is required'},
   supplier: { type: mongoose.Schema.ObjectId, ref: 'Supplier'},
   price: { type: Number},
-  reference: { type: Number }
+  reference: { type: Number },
+  flangeLength: { type: String },
+  reflexAngle: { type: String }
+
+
 })
 
 //Remove __v tag when returning JSON

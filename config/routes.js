@@ -15,8 +15,8 @@ router.route('/products/:id')
 router.route('/suppliers')
   .get(suppliersController.index)
 
-router.route('/suppliers/:id')
-  .get(suppliersController.show)
+// router.route('/suppliers/:id')
+//   .get(suppliersController.show)
 
 
 

@@ -15,43 +15,64 @@ const productArr = [
     name: 'Small wongle',
     price: 5,
     supplier: 'New Co Ltd.',
-    reference: 0
+    reference: 0,
+    reflexAngle: '27°',
+    flangeLength: '75mm'
   },
   {
     name: 'Large wongle',
     price: 8,
     supplier: 'New Co Ltd.',
-    reference: 1
+    reference: 1,
+    reflexAngle: '45°',
+    flangeLength: '60mm'
   },
   {
     name: 'Super wongle',
     price: 12,
     supplier: 'New Co Ltd.',
-    reference: 2
+    reference: 2,
+    reflexAngle: '2°',
+    flangeLength: '45mm'
   },
   {
     name: 'Mini wongle',
     price: 4,
     supplier: 'Old Co Ltd.',
-    reference: 3
+    reference: 3,
+    reflexAngle: '6°',
+    flangeLength: '333mm'
   },
   {
     name: 'Small wongle',
     price: 6,
     supplier: 'Old Co Ltd.',
-    reference: 4
+    reference: 4,
+    reflexAngle: '96°',
+    flangeLength: '20mm'
   },
   {
     name: 'Large wongle',
     price: 9,
     supplier: 'Old Co Ltd.',
-    reference: 5
+    reference: 5,
+    reflexAngle: '120°',
+    flangeLength: '15mm'
   },
   {
     name: 'Super wongle',
     price: 13,
     supplier: 'Old Co Ltd.',
-    reference: 6
+    reference: 6,
+    reflexAngle: '25°',
+    flangeLength: '100mm'
+  },{
+    name: 'Ultra wongle',
+    price: 13,
+    supplier: 'James Co Ltd.',
+    reference: 7,
+    reflexAngle: '360°',
+    flangeLength: '0.5mm'
   }
 ]
 
@@ -69,27 +90,36 @@ mongoose.connect(process.env.MONGODB_URI, (err, db) => {
         }),
         oldCo: Supplier.create({
           name: 'Old Co Ltd.'
+        }),
+        jamesCo: Supplier.create({
+          name: 'James Co Ltd.'
         })
       })
     })
     .then((suppliers)=>{
       return Promise.all(productArr.map((product)=>{
-        const {name, supplier, price, reference} = product
-        let sup
+        const {name, price, reference, flangeLength, reflexAngle} = product
+        let { supplier }  = product
         switch(supplier){
           case 'New Co Ltd.':
-            sup = suppliers.newCo
+            supplier = suppliers.newCo
             break
 
           case 'Old Co Ltd.':
-            sup = suppliers.oldCo
+            supplier = suppliers.oldCo
+            break
+
+          case 'James Co Ltd.':
+            supplier = suppliers.jamesCo
             break
         }
         return Product.create({
+          reference,
           name,
-          supplier: sup,
+          supplier,
           price,
-          reference
+          flangeLength,
+          reflexAngle
         })
       }))
     })

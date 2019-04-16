@@ -31,13 +31,6 @@ describe('GET /products/:id', () => {
       .expect(200, done)
   })
 
-  //
-  // it('should return a 404 response', done => {
-  //   api
-  //     .get('/api/products/error')
-  //     .expect(404, done)
-  // })
-
   it('should return a product', done => {
     api
       .get(`/api/products/${_product.id}`)
@@ -56,7 +49,6 @@ describe('GET /products/:id', () => {
     api
       .get(`/api/products/${_product.id}`)
       .end((err, res) => {
-        console.log('NAME',res.body.supplier.name, productData[0].supplier.name)
         expect(res.body.name).to.eq(productData[0].name)
         expect(res.body.price).to.eq(productData[0].price)
         expect(res.body.reference).to.eq(productData[0].reference)

@@ -13,18 +13,7 @@ function indexRoute(req, res, next) {
     .catch(next)
 }
 
-function showRoute(req, res, next) {
-  Supplier
-    .findById(req.params.id)
-    //Populate 'products' for supplier show, but show only name
-    .populate({path: 'products', select: 'name'})
-    .then(supplier => res.json(supplier))
-    .catch(next)
-}
-
-
 
 module.exports = {
-  index: indexRoute,
-  show: showRoute
+  index: indexRoute
 }

@@ -95,21 +95,33 @@ function buildTableRow(product, table){
   //   <td>${product.price}</td>
   // </tr>`
 
+  /* eslint-disable indent */
   const output =
   `<thead>
     <tr>
-      ${props.map(prop => `<th>${prop.charAt(0).toUpperCase()+prop.substr(1)}</th>`)}
+      ${props.map(prop => {
+        if(prop==='reference') return '<th>#</th>'
+
+        //Split at capital letter and title case words
+        const output = prop.split(/(?=[A-Z])/)
+        .map((el) => el.charAt(0)
+        .toUpperCase()+el.substr(1) )
+        .join(' ')
+
+        return `<th>${output}</th>`
+      })}
     </tr>
   </thead>
   <tbody>
     <tr>
       ${vals.map((val,i) => {
-        console.log(props[i])
         if(props[i]==='supplier') return `<td>${product.supplier.name}</td>`
           return `<td>${val}</td>`
         })}
     </tr>
   </tbody>`
+
+  /* eslint-enable indent */
 
   //Append table row to table
   table.append(output)

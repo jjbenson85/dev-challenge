@@ -2,11 +2,11 @@ import axios from 'axios'
 
 //On load
 $(()=>{
-
+  console.log('Application loaded')
   //Get Dom Elements
   const $selSupplier = $('#selSupplier')
   const $selProduct = $('#selProduct')
-  const $tbodyProduct = $('#tbodyProduct')
+  // const $tbodyProduct = $('#tbodyProduct')
   const $table = $('#table')
 
   //Add event Listeners
@@ -17,6 +17,8 @@ $(()=>{
   axios.get('/api/suppliers')
 
     .then(res => {
+      console.log('Successfull /api/suppliers request')
+
       const suppliers = res.data
 
       //Build Supplier Options
@@ -63,6 +65,7 @@ $(()=>{
 // }
 
 function buildSelectOptions(select, array, type){
+  console.log(`Building ${type} <select> options`)
   //Clear Select Element
   select.empty()
 
@@ -78,6 +81,8 @@ function buildSelectOptions(select, array, type){
 
 
 function buildTableRow(product, table){
+  console.log('Building Table')
+
   //Clear Table
   table.empty()
 
@@ -129,13 +134,19 @@ function buildTableRow(product, table){
 
 //Display Product details
 function handleProductChange(e, table){
+  console.log('Handle product <select> change')
 
   // let productId
   const productId = e.target.value
 
   //Request single product details
   axios.get(`/api/products/${productId}`)
-    .then(res => buildTableRow(res.data, table))
+
+    .then(res => {
+      console.log(`Successful /api/products/${productId} request` )
+
+      buildTableRow(res.data, table)
+    })
     .catch(err=> console.error(err.message))
 
   // FRONT END DATA SEARCH
@@ -145,11 +156,14 @@ function handleProductChange(e, table){
 
 //Update Product List
 function handleSupplierChange(e, select, table){
+  console.log('Handle supplier <select> change')
+
   const supplierId = e.target.value
 
   //Request Data from server
   axios.get(`/api/suppliers/${supplierId}`)
     .then(res => {
+      console.log(`Successful /api/suppliers/${supplierId} request` )
       const products = res.data.products
 
       //Clear Table

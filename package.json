@@ -4,6 +4,7 @@
   "description": "JDLT developer technical challenge",
   "main": "index.html",
   "scripts": {
+    "build": "webpack -p",
     "start": "node index",
     "seed": "node db/seeds",
     "serve": "webpack-dev-server --mode=development",

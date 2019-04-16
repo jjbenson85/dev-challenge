@@ -16,7 +16,6 @@ const productArr = [
     price: 5,
     supplier: 'New Co Ltd.',
     reference: 0,
-    reflexAngle: '27°',
     flangeLength: '75mm'
   },
   {
@@ -24,7 +23,6 @@ const productArr = [
     price: 8,
     supplier: 'New Co Ltd.',
     reference: 1,
-    reflexAngle: '45°',
     flangeLength: '60mm'
   },
   {
@@ -32,7 +30,6 @@ const productArr = [
     price: 12,
     supplier: 'New Co Ltd.',
     reference: 2,
-    reflexAngle: '2°',
     flangeLength: '45mm'
   },
   {
@@ -40,7 +37,6 @@ const productArr = [
     price: 4,
     supplier: 'Old Co Ltd.',
     reference: 3,
-    reflexAngle: '6°',
     flangeLength: '333mm'
   },
   {
@@ -48,24 +44,21 @@ const productArr = [
     price: 6,
     supplier: 'Old Co Ltd.',
     reference: 4,
-    reflexAngle: '96°',
-    flangeLength: '20mm'
+    reflexAngle: '96°'
   },
   {
     name: 'Large wongle',
     price: 9,
     supplier: 'Old Co Ltd.',
     reference: 5,
-    reflexAngle: '120°',
-    flangeLength: '15mm'
+    reflexAngle: '120°'
   },
   {
     name: 'Super wongle',
     price: 13,
     supplier: 'Old Co Ltd.',
     reference: 6,
-    reflexAngle: '25°',
-    flangeLength: '100mm'
+    reflexAngle: '25°'
   },{
     name: 'Ultra wongle',
     price: 13,

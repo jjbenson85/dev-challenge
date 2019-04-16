@@ -79,7 +79,7 @@ This leads to more API requests, but each request returns a small amount of data
 function showRoute(req, res, next) {
   Supplier
     .findById(req.params.id)
-    //Populate 'products' for supplier show, but show only name
+    //Populate 'products' for supplier, but show only name
     .populate({path: 'products', select: 'name'})
     .then(supplier => res.json(supplier))
     .catch(next)
@@ -88,14 +88,14 @@ function showRoute(req, res, next) {
 
 This function in ```products.js``` uses the *select* property of the *populate* method to only return the name of the products, rather than all of their data, reducing the amount of data that needs to be transferred.
 
-#### Mocha / Chai / supertest
+#### Mocha / Chai / Supertest
 The command ``` yarn test ``` will run the test suite.
 
 I have created a few basic tests to show how they might look on a larger project.
 
 Mocha is used as the test framework with Chai as the assertion library using Supertest which lets us perform tests on node servers.
 
-For each test a new database is created each time so that the data used is known and consistent using the ```mock_data.js``` file.
+For each test a new database is created using the ```mock_data.js``` file, so that the data used is known and consistent.
 
 I then test that data is returned in the correct type, then has the correct keys, and finally the correct data.
 
@@ -116,7 +116,9 @@ This function from ``` products/show_spec.js ``` tests to make sure that the cor
 
 #### Webpack
 
-I have built this project using Webpack. This involved changing how jQuery and Bootstrap were used.
+I have built this project using Webpack.  I did this so that the development process was more similar to the way I am used to working and so that I could create routes, and tests.
+
+However, this involved changing how jQuery and Bootstrap were used.
 
 Initially they were installed locally and linked from the ```index.html``` file.
 
@@ -143,13 +145,16 @@ I attempted to import Bootstrap into webpack as well, but could not get it worki
 
 #### Future Features
 
-1. Create Routes
+1. **Create Routes**
+
   With more time, I could add the ability to add Suppliers and Products to the database. I would do this by build create routes and using Post requests from the front end to pass the data to the server.
 
   This would require building some sort of input interface on the front end, combining the data into an object and sending the data as a json file.
 
-2. Search Bar
+2. **Search Bar**
+
   It would be possible to create a search bar to search for Wongles. This could be done using search route which would query the database using the users text input. I have used the lodash debounce function to enable 'automatic' data entry in the past, so that the list of results would update as the user typed.
 
-3. Improved Testing
+3. **Improved Testing**
+
   The current tests only test for good data. More tests would be needed to make sure that it was robust enough to withstand incorrect requests, etc.

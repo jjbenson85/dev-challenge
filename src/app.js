@@ -7,10 +7,11 @@ $(()=>{
   const $selSupplier = $('#selSupplier')
   const $selProduct = $('#selProduct')
   const $tbodyProduct = $('#tbodyProduct')
+  const $table = $('#table')
 
   //Add event Listeners
-  $selSupplier.on('change', (e) => handleSupplierChange(e, $selProduct, $tbodyProduct))
-  $selProduct.on('change', (e) => handleProductChange(e, $tbodyProduct))
+  $selSupplier.on('change', (e) => handleSupplierChange(e, $selProduct, $table))
+  $selProduct.on('change', (e) => handleProductChange(e, $table))
 
   //Get data
   axios.get('/api/suppliers')
@@ -80,14 +81,35 @@ function buildTableRow(product, table){
   //Clear Table
   table.empty()
 
+
   //Create cells for Select Element and insert data
+  delete product._id
+  const props = Object.keys(product)
+  const vals = Object.values(product)
+
+  //const output =
+  // `<tr>
+  //   <td>${product.reference}</td>
+  //   <td>${product.supplier.name}</td>
+  //   <td>${product.name}</td>
+  //   <td>${product.price}</td>
+  // </tr>`
+
   const output =
-  `<tr>
-    <td>${product.reference}</td>
-    <td>${product.supplier.name}</td>
-    <td>${product.name}</td>
-    <td>${product.price}</td>
-  </tr>`
+  `<thead>
+    <tr>
+      ${props.map(prop => `<th>${prop.charAt(0).toUpperCase()+prop.substr(1)}</th>`)}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      ${vals.map((val,i) => {
+        console.log(props[i])
+        if(props[i]==='supplier') return `<td>${product.supplier.name}</td>`
+          return `<td>${val}</td>`
+        })}
+    </tr>
+  </tbody>`
 
   //Append table row to table
   table.append(output)

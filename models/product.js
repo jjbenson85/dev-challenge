@@ -9,8 +9,10 @@ const productSchema = new mongoose.Schema({
 
 //Remove __v tag when returning JSON
 productSchema.set('toJSON', {
+  virtuals: true,
   transform(doc, json) {
     delete json.__v
+    delete json.id
     return json
   }
 })

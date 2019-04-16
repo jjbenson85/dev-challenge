@@ -10,17 +10,12 @@ mongoose.Promise = Promise
 const Product = require('../models/product')
 const Supplier = require('../models/supplier')
 
-const supplierArr = [
-  {name: 'New Co Ltd.'},
-  {name: 'Old Co Ltd.'}
-]
-
 const productArr = [
   {
     name: 'Small wongle',
     price: 5,
     supplier: 'New Co Ltd.',
-    reference: 0,
+    reference: 0
   },
   {
     name: 'Large wongle',

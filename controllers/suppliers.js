@@ -4,7 +4,11 @@ const Supplier = require('../models/supplier')
 function indexRoute(req, res, next) {
   Supplier
     .find()
-    .populate({path: 'products', select: 'name'})
+    //Don't populate 'products' for supplier index
+    // .populate({
+    //   path: 'products',
+    //   select: 'name'
+    // })
     .then(suppliers => res.json(suppliers))
     .catch(next)
 }
@@ -12,6 +16,7 @@ function indexRoute(req, res, next) {
 function showRoute(req, res, next) {
   Supplier
     .findById(req.params.id)
+    //Populate 'products' for supplier show, but show only name
     .populate({path: 'products', select: 'name'})
     .then(supplier => res.json(supplier))
     .catch(next)
